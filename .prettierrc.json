@@ -1,4 +1,6 @@
 {
     "tabWidth": 2,
-    "trailingComma": "all"
+    "trailingComma": "es5",
+    "singleQuote": false,
+    "bracketSpacing": true
 }
