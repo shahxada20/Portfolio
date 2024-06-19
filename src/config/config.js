@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import { config as conf} from "dotenv";
- conf();
+conf();
  
 const _config = {
-    // eslint-disable-next-line no-undef
-    port: process.env.PORT, 
+    port: process.env.PORT,
+    mongodbUri: process.env.MONGODB_URI
 };
 
+// Freeze the configuration object to prevent modifications
 export const config = Object.freeze(_config)
