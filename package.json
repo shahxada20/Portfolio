@@ -1,0 +1,22 @@
+{
+  "name": "webproject",
+  "version": "1.0.0",
+  "description": "backend of project",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "MERN",
+    "Node",
+    "REST",
+    "API"
+  ],
+  "author": "Shahzad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahxada20/Portfolio/issues"
+  },
+  "homepage": "https://github.com/shahxada20/Portfolio#readme"
+}
