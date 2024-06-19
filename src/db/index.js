@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 
 import mongoose from "mongoose";
-import { DB_NAME } from "../constants.js";
-import { config } from "../src/config/config.js";
+import { DB_NAME } from "../../constants.js";
+import { config } from "../../src/config/config.js";
 
 const connectDB = async() => {
     try {
