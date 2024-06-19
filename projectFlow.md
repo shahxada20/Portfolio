@@ -4,6 +4,7 @@
 - "dev": "nodemon server.js"
 
 ## .gitigonre file
+gitignore extension
 
 # git repository setup
 > git init 
@@ -14,9 +15,24 @@
 
 # install developer dependencies
 > npm install -D nodemon
-> npm -i dotenv
+> npm i dotenv express mongoose
 
 # initialize typescript
 > npx tsc --init
 
-# setup Eslint
+# setup Eslint (find and fix problems in JavaScript code)
+> npm init @eslint/config
+ESlint extension
+
+# text formatting with Prettier
+Prettier - Code formatter extension 
+setting (format on save)
+- .prettierrc.json
+
+# configure environment variables
+- dotenv.config({ path: './.env' });
+
+# configure express server
+- app.get() and app.listen()
+
+# mongoose setup
