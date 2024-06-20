@@ -8,38 +8,41 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
-      required: [true, "Password is required"]
+      required: [true, "Password is required"],
     },
   },
   { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
+  if (!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password, 10)
-    next()
+  this.password = bcrypt.hash(this.password, 10);
+  next();
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-    return await bcrypt.compare(password, this.password)
+  return await bcrypt.compare(password, this.password);
 };
-
 
 // JWT Token generation
 userSchema.methods.generateAccessToken = function () {
-  const token = jwt.sign({_id: this._id, email: this.email, name: this.name}, config.jwtSecret, { expiresIn: "7d" })
+  const token = jwt.sign(
+    { _id: this._id, email: this.email, name: this.name },
+    config.jwtSecret,
+    { expiresIn: "7d" }
+  );
   return token;
 };
 
