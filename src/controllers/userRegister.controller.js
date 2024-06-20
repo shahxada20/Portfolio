@@ -1,12 +1,12 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
-export const registerUser = async (req, res) => {
+export const userRegister = async (req, res) => {
   try {
     // validation
     const { name, email, password } = req.body;
     if ([name, email, password].some((field) => field?.trim() === "")) {
-      return res.status(400).json("All fields are required");
+      return res.status(400).json({message: "All fields are required"});
     }
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -23,18 +23,13 @@ export const registerUser = async (req, res) => {
         email,
         password: hashedPassword,
       });
-
       // Generate the access token
-      const token = await newUser.generateAccessToken();
-
+      const token = newUser.generateAccessToken();
+      // response
       res.status(201).json({ message: `User Registered: ${token}` });
     }
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ message: "something went wrong" });
   }
-};
-
-export const loginUser = async (req, res) => {
-  res.json({ message: "User Logged in" });
 };
