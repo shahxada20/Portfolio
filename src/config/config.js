@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { config as conf} from "dotenv";
 conf();
  
