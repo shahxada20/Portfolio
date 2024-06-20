@@ -23,7 +23,11 @@ export const registerUser = async (req, res) => {
         email,
         password: hashedPassword,
       });
-      res.status(201).json({ message: `User Registered: ${newUser._id}` });
+
+      // Generate the access token
+      const token = await newUser.generateAccessToken();
+
+      res.status(201).json({ message: `User Registered: ${token}` });
     }
   } catch (error) {
     console.error("Error registering user:", error);
