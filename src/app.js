@@ -6,6 +6,7 @@ app.get("/", (req, res)=> {
     res.json({message:"Welcom to the project window"})
 })
 
+app.use(express.json());
 // app.use() - httperrors (global error handler)
 app.use("/api/users", userRouter)
 
