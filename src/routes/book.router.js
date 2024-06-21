@@ -1,6 +1,6 @@
 import express from "express";
 import { createBook } from "../controllers/book.controller.js";
-import upload from "../middlewares/upload.middleware.js";
+import { upload }  from "../middlewares/upload.middleware.js";
 
 const bookRouter = new express.Router();
 
