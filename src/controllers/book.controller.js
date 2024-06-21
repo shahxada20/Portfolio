@@ -9,19 +9,10 @@ export const createBook = async (req, res) => {
     const coverFile = req.files.cover[0];
     const pdfFile = req.files.file[0];
 
-    const coverUploadResult = await uploadToCloudinary(
-      coverFile,
-      "book-covers"
-    );
+    const coverUploadResult = await uploadToCloudinary(coverFile, "book-covers");
     const pdfUploadResult = await uploadToCloudinary(pdfFile, "book-files");
 
-    res
-      .status(200)
-      .json({
-        message: "File uploaded successfully",
-        coverUploadResult,
-        pdfUploadResult,
-      });
+    res.status(200).json({ message: "File uploaded successfully", coverUploadResult, pdfUploadResult, });
   } catch (error) {
     console.error("Error uploading file:", error);
     res.status(500).json({ message: "Error", error });
