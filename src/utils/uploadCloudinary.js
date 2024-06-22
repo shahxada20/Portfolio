@@ -1,13 +1,6 @@
-// import cloudinary from "../config/cloudinary";
-// import { v2 } from "cloudinary";
-// import fs from "node:fs";
-
 import path from 'path';
-import { fileURLToPath } from 'url';
 import cloudinary from '../config/cloudinary.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { __dirname } from './utils.js';
 
 export const uploadToCloudinary = async (file, folder) => {
   try {
