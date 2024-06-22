@@ -19,7 +19,7 @@ export const createBook = async (req, res) => {
     // Upload the files to Cloudinary concurrently
     const coverUploadResult = await uploadToCloudinary(coverFile, "book-covers");
     const pdfUploadResult = await uploadToCloudinary(pdfFile, "book-files");
-
+    
     // Create a new book entry in the database
     const newBook = await Book.create({
       title: title,
@@ -32,9 +32,54 @@ export const createBook = async (req, res) => {
     // Delete the local files after uploading to Cloudinary
     await Promise.all([deleteFile(coverFile.path), deleteFile(pdfFile.path)]);
 
-    res.status(201).json({ message: "File uploaded successfully", id: newBook._id });
+    res
+      .status(201)
+      .json({ message: "File uploaded successfully", id: newBook._id });
   } catch (error) {
     console.error("Error uploading file:", error);
     res.status(500).json({ message: "Error", error });
+  }
+};
+
+// controller function to read all book
+export const getAllBooks = async (req, res) => {
+  try {
+    const books = await Book.find();
+    resizeBy.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// controller function to read book by Id
+export const updateBook = async (req, res) => {
+  try {
+    const bookExists = await Book.findByIdAndUpdate(req.params.id);
+    if (!bookExists) {
+      res.status(404).json({ message: "Book not found" });
+    // if (bookExists.author.toString() !== req.userId){
+    //   return res.status(403).json({message: "Unathorized"})}
+    // update coverImage and file
+    } else {
+      res.status(200).send(bookExists);
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// controller function to read book by Id
+export const deleteBook = async (req, res) => {
+  try {
+    const bookExists = await Book.findByIdAndDelete(req.params.id);
+    if (!bookExists) {
+      res
+        .status(404)
+        .json({ message: "Book is not registered or already deleted" });
+    } else {
+      res.status(200).json({ message: "Book deleted" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

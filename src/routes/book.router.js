@@ -1,7 +1,7 @@
 import express from "express";
-import { createBook } from "../controllers/book.controller.js";
+import { createBook, updateBook, getAllBooks, deleteBook } from "../controllers/book.controller.js";
 import { upload }  from "../middlewares/upload.middleware.js";
-import authenticate from "../middlewares/authenticate.middleware.js";
+// import authenticate from "../middlewares/authenticate.middleware.js";
 
 const bookRouter = new express.Router();
 
@@ -12,5 +12,6 @@ bookRouter.post("/",
     { name: "file", maxCount: 1 },
   ]), createBook
 );
+bookRouter.patch("/", updateBook)
 
 export default bookRouter;
