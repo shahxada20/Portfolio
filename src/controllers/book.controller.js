@@ -1,6 +1,7 @@
 import { Book } from "../models/book.model.js";
 import { uploadToCloudinary } from "../utils/uploadCloudinary.js";
 import { deleteFile } from "../utils/fileDeleteUtils.js";
+import mongoose from "mongoose";
 
 export const createBook = async (req, res) => {
   /* Controller function to create a book
@@ -109,14 +110,17 @@ export const listBooks = async (req, res) => {
 export const getSingleBook = async (req, res) => {
   try {
     const bookId = req.params.bookId;
+    
+    if (!mongoose.Types.ObjectId.isValid(bookId)) {
+      return res.status(400).json({ message: "Invalid Book ID" });
+    }
     const book = await Book.findOne({_id: bookId});
     if (!book) {
-      res.status(404).json({ message: "BooK NOT Found" });
+      return res.status(404).json({ message: "Book NOT Found" });
     }
-    res.status(200).json({message: "Book Found", book});
+    return res.status(200).json({message: "Book Found", book});
   } catch (error) {
-    console.error("Error getting book:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
