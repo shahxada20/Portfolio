@@ -47,6 +47,9 @@ export const createBook = async (req, res) => {
 export const updateBook = async (req, res) => {
   try {
     const bookId = req.params.bookId;
+    if (!mongoose.Types.ObjectId.isValid(bookId)) {
+      return res.status(400).json({ message: "Invalid Book ID" });
+    }
     const { title, genre } = req.body;
     const { files } = req;
 
@@ -110,15 +113,15 @@ export const listBooks = async (req, res) => {
 export const getSingleBook = async (req, res) => {
   try {
     const bookId = req.params.bookId;
-    
+
     if (!mongoose.Types.ObjectId.isValid(bookId)) {
       return res.status(400).json({ message: "Invalid Book ID" });
     }
-    const book = await Book.findOne({_id: bookId});
+    const book = await Book.findOne({ _id: bookId });
     if (!book) {
       return res.status(404).json({ message: "Book NOT Found" });
     }
-    return res.status(200).json({message: "Book Found", book});
+    return res.status(200).json({ message: "Book Found", book });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
@@ -127,14 +130,16 @@ export const getSingleBook = async (req, res) => {
 // controller function to delete book by ID
 export const deleteBook = async (req, res) => {
   try {
-    //     const bookExists = await Book.findByIdAndDelete(req.params.id);
-    //     if (!bookExists) {
-    //       res
-    //         .status(404)
-    //         .json({ message: "Book is not registered or already deleted" });
-    //     } else {
+    const bookId = req.params.bookId;
+    if (!mongoose.Types.ObjectId.isValid(bookId)) {
+      return res.status(400).json({ message: "Invalid Book ID" });
+    }
+    const book = await Book.findOne({ _id: bookId });
+    if (!book) {
+      return res.status(404).json({ message: "Book Not Found" });
+    }
+    await Book.findByIdAndDelete(bookId);
     res.status(200).json({ message: "Book deleted" });
-    //     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
