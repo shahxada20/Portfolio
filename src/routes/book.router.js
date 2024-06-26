@@ -1,17 +1,28 @@
 import express from "express";
-import { createBook} from "../controllers/book.controller.js";
-import { upload }  from "../middlewares/upload.middleware.js";
+import { createBook, updateBook } from "../controllers/book.controller.js";
+import { upload } from "../middlewares/upload.middleware.js";
 import authenticateUser from "../middlewares/authenticate.middleware.js";
 
 const bookRouter = new express.Router();
 
-bookRouter.post("/",
+bookRouter.post(
+  "/",
   authenticateUser,
   upload.fields([
     { name: "cover", maxCount: 1 },
     { name: "file", maxCount: 1 },
-  ]), createBook
+  ]),
+  createBook
 );
-// bookRouter.patch("/", updateBook);
+
+bookRouter.patch(
+  "/:bookId",
+  authenticateUser,
+  upload.fields([
+    { name: "cover", maxCount: 1 },
+    { name: "file", maxCount: 1 },
+  ]),
+  updateBook
+);
 
 export default bookRouter;
