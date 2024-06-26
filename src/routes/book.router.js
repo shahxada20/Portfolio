@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createBook,
-  getBook,
+  getSingleBook,
   listBooks,
   updateBook,
 } from "../controllers/book.controller.js";
@@ -31,6 +31,6 @@ bookRouter.patch(
 );
 
 bookRouter.get("/", listBooks);
-bookRouter.get("/:bookId", getBook);
+bookRouter.get("/:bookId", getSingleBook);
 
 export default bookRouter;

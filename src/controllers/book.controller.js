@@ -99,18 +99,23 @@ export const listBooks = async (req, res) => {
   try {
     // add pagination later
     const books = await Book.find();
-    return res.status(200).json({ message: "OK", books});
+    return res.status(200).json({ message: "OK", books });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 // controller function to get a book by ID
-export const getBook = async (req, res) => {
+export const getSingleBook = async (req, res) => {
   try {
     const bookId = req.params.bookId;
-    res.status(200).json({ message: "OK" });
+    const book = await Book.findOne({_id: bookId});
+    if (!book) {
+      res.status(404).json({ message: "BooK NOT Found" });
+    }
+    res.status(200).json({message: "Book Found", book});
   } catch (error) {
+    console.error("Error getting book:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
