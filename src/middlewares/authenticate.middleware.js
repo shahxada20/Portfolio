@@ -10,18 +10,21 @@ const authenticate = async (req, res, next) => {
       .status(401)
       .json({ message: "No Authorization token is Provided" });
   }
-  // console.log(token);
   try {
     const decoded = jwt.verify(token, config.jwtSecret);
     const user = await User.findById(decoded._id);
-    // console.log(decoded);
+
     if (!user) {
       return res.status(401).json({ message: "Invalid Tokenn" });
     }
-    req.user = user; // attch user object to request
+    req.user = user;
+    req.userId = decoded._id; // attch user object to request
     next();
   } catch (error) {
     console.log("Error authenticating user:", error);
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

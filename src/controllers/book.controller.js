@@ -2,6 +2,7 @@ import { Book } from "../models/book.model.js";
 import { uploadToCloudinary } from "../utils/uploadCloudinary.js";
 import { deleteFile } from "../utils/fileDeleteUtils.js";
 import mongoose from "mongoose";
+import cloudinary from "../config/cloudinary.js";
 
 export const createBook = async (req, res) => {
   /* Controller function to create a book
@@ -57,11 +58,10 @@ export const updateBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({ message: "Book Not Found" });
     }
-
     // check authorization
-    // if(book.author.toString() !== req.userId){
-    //   return res.status(403).json({message: "Unauthorized"})
-    // }
+    if (book.author.toString() !== req.userId) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
 
     const updateData = {};
     if (title) updateData.title = title;
@@ -138,8 +138,26 @@ export const deleteBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({ message: "Book Not Found" });
     }
+    // check authorization
+    if (book.author.toString() !== req.userId) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    const coverSplit = book.cover.split("/");
+    const coverPublicId =
+      coverSplit.at(-2) + "/" + coverSplit.at(-1)?.split(".").at(-2);
+    const fileSplit = book.file.split("/");
+    const filePublicId = fileSplit.at(-2) + "/" + fileSplit.at(-1);
+
+    try {
+      await cloudinary.uploader.destroy(coverPublicId);
+      await cloudinary.uploader.destroy(filePublicId, { resource_type: "raw" });
+    } catch (error) {
+      return res.status(400).json({ message: "Operation Failed" });
+    }
+
     await Book.findByIdAndDelete(bookId);
-    res.status(200).json({ message: "Book deleted" });
+    return res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

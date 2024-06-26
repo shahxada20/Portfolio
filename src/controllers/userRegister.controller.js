@@ -25,8 +25,9 @@ export const userRegister = async (req, res) => {
       });
       // Generate the access token
       const token = newUser.generateAccessToken();
+      const userId = newUser._id
       // response
-      res.status(201).json({ message: `User Registered: ${token}` });
+      res.status(201).json({ message: `User Registered: ${token}`, userId });
     }
   } catch (error) {
     console.error("Error registering user:", error);

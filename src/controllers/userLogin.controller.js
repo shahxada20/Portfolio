@@ -20,8 +20,9 @@ export const userLogin = async (req, res) => {
         }else{
             // Generate the access token
           const token = user.generateAccessToken();
+          const userId = user._id;
           // response
-          res.status(200).json({ message: `User Logged in: ${token}` });
+          res.status(200).json({ message: `User Logged in Token: ${token}`, userId });
         }
     }catch(error){
         res.status(500).json({ message: `Something Went Wrong` });
