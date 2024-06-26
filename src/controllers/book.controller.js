@@ -1,7 +1,6 @@
 import { Book } from "../models/book.model.js";
 import { uploadToCloudinary } from "../utils/uploadCloudinary.js";
 import { deleteFile } from "../utils/fileDeleteUtils.js";
-import mongoose from "mongoose";
 
 export const createBook = async (req, res) => {
   /* Controller function to create a book
@@ -21,10 +20,7 @@ export const createBook = async (req, res) => {
     }
     const [coverFile, pdfFile] = [req.files.cover[0], req.files.file[0]];
 
-    const coverUpload = await uploadToCloudinary(
-      coverFile,
-      "book-covers"
-    );
+    const coverUpload = await uploadToCloudinary(coverFile, "book-covers");
     const pdfUploadResult = await uploadToCloudinary(pdfFile, "book-files");
 
     const newBook = await Book.create({
@@ -46,7 +42,7 @@ export const createBook = async (req, res) => {
   }
 };
 
-// controller function to read book by Id
+// controller function to update book by ID
 export const updateBook = async (req, res) => {
   try {
     const bookId = req.params.bookId;
@@ -69,10 +65,7 @@ export const updateBook = async (req, res) => {
 
     if (files?.cover?.[0]) {
       const coverFile = files.cover[0];
-      const coverUpload = await uploadToCloudinary(
-        coverFile,
-        "book-covers"
-      );
+      const coverUpload = await uploadToCloudinary(coverFile, "book-covers");
       updateData.cover = coverUpload.secure_url;
       await deleteFile(coverFile.path);
     }
@@ -83,7 +76,7 @@ export const updateBook = async (req, res) => {
       updateData.file = pdfUploadResult.secure_url;
       await deleteFile(pdfFile.path);
     }
-    
+
     const updatedBook = await Book.findOneAndUpdate(
       { _id: bookId },
       updateData,
@@ -101,28 +94,39 @@ export const updateBook = async (req, res) => {
   }
 };
 
-// export const getAllBooks = async (req, res) => {
-//   // controller function to read all book
-//   try {
-//     const books = await Book.find();
-//     resizeBy.status(200).json(books);
-//   } catch (error) {
-//     res.status(500).json({ message: "Something went wrong" });
-//   }
-// };
+// controller function to get all book
+export const listBooks = async (req, res) => {
+  try {
+    // add pagination later
+    const books = await Book.find();
+    return res.status(200).json({ message: "OK", books});
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-// controller function to read book by Id
-// export const deleteBook = async (req, res) => {
-//   try {
-//     const bookExists = await Book.findByIdAndDelete(req.params.id);
-//     if (!bookExists) {
-//       res
-//         .status(404)
-//         .json({ message: "Book is not registered or already deleted" });
-//     } else {
-//       res.status(200).json({ message: "Book deleted" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: "Something went wrong" });
-//   }
-// };
+// controller function to get a book by ID
+export const getBook = async (req, res) => {
+  try {
+    const bookId = req.params.bookId;
+    res.status(200).json({ message: "OK" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// controller function to delete book by ID
+export const deleteBook = async (req, res) => {
+  try {
+    //     const bookExists = await Book.findByIdAndDelete(req.params.id);
+    //     if (!bookExists) {
+    //       res
+    //         .status(404)
+    //         .json({ message: "Book is not registered or already deleted" });
+    //     } else {
+    res.status(200).json({ message: "Book deleted" });
+    //     }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

@@ -1,5 +1,10 @@
 import express from "express";
-import { createBook, updateBook } from "../controllers/book.controller.js";
+import {
+  createBook,
+  getBook,
+  listBooks,
+  updateBook,
+} from "../controllers/book.controller.js";
 import { upload } from "../middlewares/upload.middleware.js";
 import authenticateUser from "../middlewares/authenticate.middleware.js";
 
@@ -24,5 +29,8 @@ bookRouter.patch(
   ]),
   updateBook
 );
+
+bookRouter.get("/", listBooks);
+bookRouter.get("/:bookId", getBook);
 
 export default bookRouter;
