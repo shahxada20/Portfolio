@@ -10,8 +10,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcom to the project window" });
 });
 
+// app.use() - httperrors (global error handler)
 app.use(cors({
-  // app.use() - httperrors (global error handler)
   origin: config.frontend_domain,
 }))
 app.use(express.json());
