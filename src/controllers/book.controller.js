@@ -102,8 +102,8 @@ export const updateBook = async (req, res) => {
 export const listBooks = async (req, res) => {
   try {
     // add pagination later
-    const books = await Book.find();
-    return res.status(200).json({ message: "OK", books });
+    const books = await Book.find().populate("author", "name");
+    return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
@@ -117,7 +117,7 @@ export const getSingleBook = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(bookId)) {
       return res.status(400).json({ message: "Invalid Book ID" });
     }
-    const book = await Book.findOne({ _id: bookId });
+    const book = await Book.findOne({ _id: bookId }).populate("author", "name");
     if (!book) {
       return res.status(404).json({ message: "Book NOT Found" });
     }
