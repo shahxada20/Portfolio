@@ -1,25 +1,24 @@
-# Reader's Hub
+# Reader's Hub Backend
 ## _Connect, Discover, and Share Your Favourite Reads..._
 
-Reader's Hub is a web application built using the MERN stack, designed to allow users to browse, and read their favorite books. With a simple and intuitive interface, this application provides a seamless user experience.
+### Overview
+Reader's Hub is an ebook library web application designed to connect book enthusiasts by enabling them to browse, read, and share (upload) their favorite reads. The backend of the application is built using Node.js and Express.js, with MongoDB for database management and Cloudinary for storage. JSON Web Tokens (JWT) are used for user authentication, ensuring secure access to the platform.
 
-## Features
-![Screenshot_1]()
-
-- **Browse Collection:** Explore a wide range of books.
-- **Detailed Information:** View comprehensive details about each book.
-- **PDF Downloads:** Download and read books in PDF format.
+## Key Features
+- **User Authentication:** Secure user registration and login using JSON Web Tokens (JWT).
+- **CRUD Operations:** Comprehensive create, read, update, and delete (CRUD) functionality for managing books and user data.
+- **Book Storages:** Integration with Cloudinary for efficient and scalable book cover and file storage.
+- **REST API:** A robust REST API to handle requests and responses between the frontend and the backend.
 
 ## Tech Stack
-
 Reader's Hub leverages the following technologies:
-
 - **Frontend:**
   - [Next.js](https://nextjs.org/)
   - [React](https://reactjs.org/)
   - [Tailwind CSS](https://tailwindcss.com/)
 - **Backend:**
   - [Node.js](https://nodejs.org/)
+  - [Express](https://expressjs.com/)
   - [MongoDB](https://www.mongodb.com/) (with [Mongoose](https://mongoosejs.com/))
 
 ## Setup and Installation
@@ -32,20 +31,7 @@ Before you begin, ensure you have the following installed on your machine:
 - [npm](https://www.npmjs.com/)
 - [MongoDB](https://www.mongodb.com/)
 
-### Installation Steps
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/readers-hub.git
-   cd readers-hub
-   ```
-
-2. **Clone the repository:**
-    ```bash
-    npm install
-    ```
-
-### Tech
+### Techenology I used
 
 - Next.js
 - React
